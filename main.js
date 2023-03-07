@@ -50,6 +50,9 @@ function change_icon(tab) {
         chrome.action.setTitle({ title: "error" });
     }
 }
+chrome.windows.onFocusChanged.addListener((windowId) => {
+    chrome.tabs.query({ windowId: windowId, active: true }, (tabs) => { change_icon(tabs[0]) });
+});
 chrome.tabs.onActivated.addListener((activeInfo) => {
     chrome.tabs.get(activeInfo.tabId, (tab) => { change_icon(tab); });
 });
