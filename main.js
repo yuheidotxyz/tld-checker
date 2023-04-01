@@ -39,20 +39,25 @@ function change_icon(tab) {
             });
         });
         chrome.action.setIcon({
-            imageData: create_icon(char, color, back_color)
+            imageData: create_icon(char, color, back_color),
+            tabId: tab.id
         });
-        chrome.action.setTitle({ title: url.origin });
+        chrome.action.setTitle({
+            title: url.origin,
+            tabId: tab.id
+        });
     }
     catch (e) {
         chrome.action.setIcon({
-            imageData: create_icon()
+            imageData: create_icon(),
+            tabId: tab.id
         });
-        chrome.action.setTitle({ title: "error" });
+        chrome.action.setTitle({
+            title: "error",
+            tabId: tab.id
+        });
     }
 }
-chrome.windows.onFocusChanged.addListener((windowId) => {
-    chrome.tabs.query({ windowId: windowId, active: true }, (tabs) => { change_icon(tabs[0]) });
-});
 chrome.tabs.onActivated.addListener((activeInfo) => {
     chrome.tabs.get(activeInfo.tabId, (tab) => { change_icon(tab); });
 });
